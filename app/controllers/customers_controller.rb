@@ -1,9 +1,10 @@
 require_relative '../../lib/misc/testmessage'
+require_relative '../models/customer'
 
 class CustomersController < ApplicationController
   def index
-    @message = TestMessage.new('test message')
-    render json: @message
+    customers = Customer.all
+    render json: customers
   end
 
   def create
