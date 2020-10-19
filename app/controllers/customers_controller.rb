@@ -1,4 +1,3 @@
-require_relative '../../lib/misc/testmessage'
 require_relative '../models/customer'
 
 class CustomersController < ApplicationController
@@ -10,20 +9,27 @@ class CustomersController < ApplicationController
   def show
     customer = Customer.find(params[:id])
     render json: customer
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'customer id not found' }, status: :not_found
   end
 
   def create
     customer = Customer.create(customer_params)
+    render status: :created
   end
 
   def update
     customer = Customer.find(params[:id])
     customer.update(customer_params)
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'customer id not found' }, status: :not_found
   end
 
   def destroy
     customer = Customer.find(params[:id])
     customer.destroy
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'customer id not found' }, status: :not_found
   end
 
   def customer_params
