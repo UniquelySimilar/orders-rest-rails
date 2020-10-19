@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   # Order routes
   get 'orders', to: 'orders#index'
   get 'orders/:id', to: 'orders#show'
+  get 'orders/customer/:customer_id', to: 'orders#find_by_customer'
   post 'orders', to: 'orders#create'
   put 'orders/:id', to: 'orders#update'
   delete 'orders/:id', to: 'orders#destroy'

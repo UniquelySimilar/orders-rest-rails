@@ -13,9 +13,16 @@ class OrdersController < ApplicationController
     render json: { error: 'order id not found' }, status: :not_found
   end
 
+  def find_by_customer
+    orders = Order.where('customer_id = ?', params[:customer_id])
+    render json: orders
+  end
+
   def create
     Order.create(order_params)
     render status: :created
+  rescue ActiveRecord::InvalidForeignKey
+    render json: { error: 'foreign key customer id not found' }, status: :bad_request
   end
 
   def update
