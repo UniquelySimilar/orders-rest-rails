@@ -1,5 +1,4 @@
 require_relative '../models/customer'
-require_relative '../models/customer_orders'
 
 class CustomersController < ApplicationController
   def index
@@ -9,19 +8,19 @@ class CustomersController < ApplicationController
 
   def show
     customer = Customer.find(params[:id])
-    customer_orders = CustomerOrders.new(customer, customer.orders)
-
-    render json: customer_orders
+    render json: customer, include: :orders
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'customer id not found' }, status: :not_found
   end
 
   def create
+    # TODO: Validation
     customer = Customer.create(customer_params)
     render status: :created
   end
 
   def update
+    # TODO: Validation
     customer = Customer.find(params[:id])
     customer.update(customer_params)
   rescue ActiveRecord::RecordNotFound
