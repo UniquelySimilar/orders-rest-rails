@@ -14,9 +14,13 @@ class CustomersController < ApplicationController
   end
 
   def create
-    # TODO: Validation
-    customer = Customer.create(customer_params)
-    render status: :created
+    customer = Customer.new(customer_params)
+    if customer.valid?
+      customer.save
+      render status: :created
+    else
+      render json: customer.errors, status: :bad_request
+    end
   end
 
   def update
