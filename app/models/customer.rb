@@ -1,7 +1,7 @@
 class Customer < ApplicationRecord
   has_many :orders
 
-  validates :first_name, :last_name, :city, length: { in: 2..50 }
+  validates :first_name, :last_name, :street, :city, length: { in: 2..50 }
   validates :zipcode, length: { is: 5 }, numericality: { only_integer: true }
   validates :home_phone, length: { is: 10 }, numericality: { only_integer: true }
   validates :work_phone, length: { is: 10 }, numericality: { only_integer: true }, allow_blank: true
