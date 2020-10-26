@@ -14,21 +14,19 @@ class CustomersController < ApplicationController
   end
 
   def create
-    customer = Customer.new(customer_params)
-    if customer.valid?
-      customer.save
-      render status: :created
-    else
-      render json: customer.errors, status: :bad_request
-    end
+    Customer.create!(customer_params)
+    render status: :created
+  rescue ActiveRecord::RecordInvalid => invalid
+    render json: invalid.record.errors, status: :bad_request
   end
 
   def update
-    # TODO: Validation
     customer = Customer.find(params[:id])
-    customer.update(customer_params)
+    customer.update!(customer_params)
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'customer id not found' }, status: :not_found
+  rescue ActiveRecord::RecordInvalid => invalid
+    render json: invalid.record.errors, status: :bad_request
   end
 
   def destroy
