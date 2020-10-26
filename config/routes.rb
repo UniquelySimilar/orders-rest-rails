@@ -1,14 +1,18 @@
 Rails.application.routes.draw do
   root 'customers#index'
 
-  # Customer routes
+  # Login
+  post 'login', to: 'login#login'
+  get 'logout', to: 'login#logout'
+
+  # Customer
   get 'customers', to: 'customers#index'
   get 'customers/:id', to: 'customers#show'
   post 'customers', to: 'customers#create'
   put 'customers/:id', to: 'customers#update'
   delete 'customers/:id', to: 'customers#destroy'
 
-  # Order routes
+  # Order
   get 'orders', to: 'orders#index'
   get 'orders/:id', to: 'orders#show'
   get 'orders/customer/:customer_id', to: 'orders#find_by_customer'
