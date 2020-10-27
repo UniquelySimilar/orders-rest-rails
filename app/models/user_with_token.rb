@@ -1,3 +1,4 @@
 class UserWithToken < ApplicationRecord
-  self.table_name = "tokenusers"
+  has_secure_password
+  self.table_name = "tokenusersrails"
 end

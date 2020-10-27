@@ -2,9 +2,19 @@ require_relative '../models/user_with_token'
 
 class LoginController < ApplicationController
   def login
-    user = UserWithToken.where(username: params[:username], password: params[:password]).first!
-  rescue ActiveRecord::RecordNotFound
-    render json: { error: 'user not found' }, status: :not_found
+    # Create test user with encrypted password
+    #user = UserWithToken.new(username: 'tim', password: '')
+    #user.save!
+
+    user = UserWithToken.find_by(username: params[:username]).try(:authenticate, params[:password])
+    if (!user)
+      render status: :unauthorized
+    else
+      # Create, store, and return token
+      token = SecureRandom.uuid
+      user.update(token: token, tokenexp: Date::tomorrow())
+      render json: { token: token }
+    end
   end
 
   def logout
