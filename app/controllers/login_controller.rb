@@ -1,6 +1,8 @@
 require_relative '../models/user_with_token'
 
 class LoginController < ApplicationController
+  skip_before_action :authenticate
+  
   def login
     # Create test user with encrypted password
     #user = UserWithToken.new(username: 'tim', password: '')

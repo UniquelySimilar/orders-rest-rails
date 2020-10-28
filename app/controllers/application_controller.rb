@@ -5,23 +5,17 @@ class ApplicationController < ActionController::API
 
   def authenticate
     # Get Authorization header Bearer token
-    # Test token:
     pattern = /^Bearer /
     header_value = request.headers['Authorization']
     if header_value && header_value.match(pattern)
       token = header_value.gsub(pattern, '')
-      logger.debug("Authorization header received with token: #{token}")
-      # Find user with token
-      if UserWithToken.find_by(token: token).nil?
-        logger.debug("User NOT found with token: #{token}")
-        render status: :unauthorized
-      else
-        # TODO: Check token expiration date
-        logger.debug("User found with token: #{token}")
-      end
+      # Find user with unexpired token
+      user = UserWithToken.where(["token = ? and tokenexp > ?", token, Date.today]).first!
+      logger.debug("User found with unexpired token: #{token}")
     else
-      logger.debug("Authorization header NOT received")
       render status: :unauthorized
     end
+  rescue ActiveRecord::RecordNotFound
+    render status: :unauthorized
   end
 end

@@ -6,4 +6,4 @@
 * **ActiveRecord CRUD and Validation**
 * **Full CRUD functionality for Customer model**
 * **Full CRUD functionality for Order model as child of Customer model**
-* **Bearer Token Authentication (in progress)**
+* **Bearer Token Authentication**
