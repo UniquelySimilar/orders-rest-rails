@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   # Login
   post 'login', to: 'login#login'
-  get 'logout', to: 'login#logout'
+  put 'logout', to: 'login#logout'
 
   # Customer
   get 'customers', to: 'customers#index'

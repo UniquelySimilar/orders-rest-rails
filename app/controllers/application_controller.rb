@@ -11,7 +11,6 @@ class ApplicationController < ActionController::API
       token = header_value.gsub(pattern, '')
       # Find user with unexpired token
       user = UserWithToken.where(["token = ? and tokenexp > ?", token, Date.today]).first!
-      logger.debug("User found with unexpired token: #{token}")
     else
       render status: :unauthorized
     end
